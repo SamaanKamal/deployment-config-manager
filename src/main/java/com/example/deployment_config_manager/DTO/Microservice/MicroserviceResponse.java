@@ -3,6 +3,8 @@ package com.example.deployment_config_manager.DTO.Microservice;
 import lombok.Builder;
 import lombok.Value;
 
+import java.time.LocalDateTime;
+
 @Value
 @Builder
 public class MicroserviceResponse {
@@ -13,6 +15,6 @@ public class MicroserviceResponse {
     String chartName;
     String namespace;
     String description;
-    String createdAt;
-    String updatedAt;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }
