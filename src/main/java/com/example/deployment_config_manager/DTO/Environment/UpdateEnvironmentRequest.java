@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateEnvironmentRequest {
-    private Long projectId;
     private String name;
     private String description;
 }
