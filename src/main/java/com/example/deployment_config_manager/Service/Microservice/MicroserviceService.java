@@ -23,14 +23,14 @@ public class MicroserviceService implements IMicroserviceService {
     }
 
     @Override
-    public MicroserviceResponse getMicroserviceById(Long id) {
+    public MicroserviceResponse getMicroservice(Long id) {
         return microserviceRepository.findById(id)
                 .map(this::toResponse)
                 .orElseThrow(() -> new RuntimeException("Microservice not found with id: " + id));
     }
 
     @Override
-    public MicroserviceResponse createMicroservice(Long id, CreateMicroserviceRequest createMicroserviceRequest) {
+    public MicroserviceResponse addMicroservice(CreateMicroserviceRequest createMicroserviceRequest) {
         Microservice microservice = new Microservice();
         microservice.setName(createMicroserviceRequest.getName());
         microservice.setImageName(createMicroserviceRequest.getImageName());

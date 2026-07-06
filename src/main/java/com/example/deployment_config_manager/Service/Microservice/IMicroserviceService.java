@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface IMicroserviceService {
     List<MicroserviceResponse> getAllMicroservices();
-    MicroserviceResponse getMicroserviceById(Long id);
-    MicroserviceResponse createMicroservice(Long id, CreateMicroserviceRequest createMicroserviceRequest);
+    MicroserviceResponse getMicroservice(Long id);
+    MicroserviceResponse addMicroservice(CreateMicroserviceRequest createMicroserviceRequest);
     MicroserviceResponse updateMicroservice(Long id, UpdateMicroServiceRequest updateMicroServiceRequest);
     void deleteMicroservice(Long id);
 }
