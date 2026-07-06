@@ -1,0 +1,40 @@
+package com.example.deployment_config_manager.Controller.Environment;
+
+import com.example.deployment_config_manager.DTO.Environment.CreateEnvironmentRequest;
+import com.example.deployment_config_manager.DTO.Environment.EnvironmentResponse;
+import com.example.deployment_config_manager.DTO.Environment.UpdateEnvironmentRequest;
+import com.example.deployment_config_manager.Service.Environment.IEnvironmentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/environments")
+@RequiredArgsConstructor
+public class EnvironmentController {
+    private final IEnvironmentService environmentService;
+
+    @GetMapping
+    public ResponseEntity<List<EnvironmentResponse>> getAllEnvironments() {
+        return ResponseEntity.ok(environmentService.getAllEnvironments());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<EnvironmentResponse> getEnvironment(Long id) {
+        return ResponseEntity.ok(environmentService.getEnvironment(id));
+    }
+    @PostMapping("/create")
+    public ResponseEntity<EnvironmentResponse> createEnvironment(CreateEnvironmentRequest createEnvironmentRequest) {
+        return ResponseEntity.ok(environmentService.addEnvironment(createEnvironmentRequest));
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<EnvironmentResponse> updateEnvironment(Long id, UpdateEnvironmentRequest updateEnvironmentRequest) {
+        return ResponseEntity.ok(environmentService.updateEnvironment(id, updateEnvironmentRequest));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEnvironment(Long id) {
+        environmentService.deleteEnvironment(id);
+        return ResponseEntity.noContent().build();
+    }
+}
