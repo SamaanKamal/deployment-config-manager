@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateMicroServiceRequest {
-    private Long microserviceId;
     private String name;
     private String imageName;
     private String chartName;
