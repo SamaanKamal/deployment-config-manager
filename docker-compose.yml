@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: dcm-postgres
+    environment:
+      POSTGRES_DB: dcm_db
+      POSTGRES_USER: dcm_user
+      POSTGRES_PASSWORD: dcm_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - dcm_postgres_data:/var/lib/postgresql/data
+volumes:
+  dcm_postgres_data:
