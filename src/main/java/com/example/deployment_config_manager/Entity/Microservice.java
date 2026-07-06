@@ -1,21 +1,30 @@
 package com.example.deployment_config_manager.Entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
+@Table(name = "microservices", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"environment_id", "name"})
+})
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Microservice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "environment_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "environment_id", nullable = false)
     private Environment environment;
 
     private String name;
@@ -24,7 +33,7 @@ public class Microservice {
     private String namespace;
     private String description;
     @CreationTimestamp
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
-    private Timestamp updatedAt;
+    private LocalDateTime updatedAt;
 }
