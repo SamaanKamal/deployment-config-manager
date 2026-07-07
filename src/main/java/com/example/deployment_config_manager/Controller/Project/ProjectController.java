@@ -17,27 +17,27 @@ public class ProjectController {
     private final IProjectService projectService;
 
     @GetMapping()
-    public ResponseEntity<List<ProjectResponse>> getProjects(Long id) {
+    public ResponseEntity<List<ProjectResponse>> getProjects() {
         return ResponseEntity.ok(projectService.getAllProjects());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectResponse> getProject(Long id) {
+    public ResponseEntity<ProjectResponse> getProject(@PathVariable("id") Long id) {
         return ResponseEntity.ok(projectService.getProject(id));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ProjectResponse> createProject(CreateProjectRequest createProjectRequest) {
+    public ResponseEntity<ProjectResponse> createProject(@RequestBody CreateProjectRequest createProjectRequest) {
         return ResponseEntity.ok(projectService.addProject(createProjectRequest));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProjectResponse> updateProject(Long id, UpdateProjectRequest updateProjectRequest) {
+    public ResponseEntity<ProjectResponse> updateProject(@PathVariable("id") Long id, @RequestBody UpdateProjectRequest updateProjectRequest) {
         return ResponseEntity.ok(projectService.updateProject(id, updateProjectRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProject(Long id) {
+    public ResponseEntity<Void> deleteProject(@PathVariable("id") Long id) {
         projectService.deleteProject(id);
         return ResponseEntity.noContent().build();
     }
