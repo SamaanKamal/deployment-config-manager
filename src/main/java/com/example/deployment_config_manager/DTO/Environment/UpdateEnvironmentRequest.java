@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class UpdateEnvironmentRequest {
     private String name;
     private String description;
+    private Long projectId;
 }

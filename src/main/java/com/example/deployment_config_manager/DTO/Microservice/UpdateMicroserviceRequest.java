@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateMicroServiceRequest {
+public class UpdateMicroserviceRequest {
     private String name;
     private String imageName;
     private String chartName;
     private String namespace;
     private String description;
+    private Long environmentId;
 }
