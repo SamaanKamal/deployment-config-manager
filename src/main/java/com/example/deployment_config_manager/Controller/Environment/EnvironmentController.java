@@ -21,19 +21,19 @@ public class EnvironmentController {
         return ResponseEntity.ok(environmentService.getAllEnvironments());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<EnvironmentResponse> getEnvironment(Long id) {
+    public ResponseEntity<EnvironmentResponse> getEnvironment(@PathVariable("id") Long id) {
         return ResponseEntity.ok(environmentService.getEnvironment(id));
     }
     @PostMapping("/create")
-    public ResponseEntity<EnvironmentResponse> createEnvironment(CreateEnvironmentRequest createEnvironmentRequest) {
+    public ResponseEntity<EnvironmentResponse> createEnvironment(@RequestBody CreateEnvironmentRequest createEnvironmentRequest) {
         return ResponseEntity.ok(environmentService.addEnvironment(createEnvironmentRequest));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<EnvironmentResponse> updateEnvironment(Long id, UpdateEnvironmentRequest updateEnvironmentRequest) {
+    public ResponseEntity<EnvironmentResponse> updateEnvironment(@PathVariable("id") Long id, @RequestBody UpdateEnvironmentRequest updateEnvironmentRequest) {
         return ResponseEntity.ok(environmentService.updateEnvironment(id, updateEnvironmentRequest));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEnvironment(Long id) {
+    public ResponseEntity<Void> deleteEnvironment(@PathVariable("id") Long id) {
         environmentService.deleteEnvironment(id);
         return ResponseEntity.noContent().build();
     }
