@@ -2,7 +2,7 @@ package com.example.deployment_config_manager.Controller.Microservice;
 
 import com.example.deployment_config_manager.DTO.Microservice.CreateMicroserviceRequest;
 import com.example.deployment_config_manager.DTO.Microservice.MicroserviceResponse;
-import com.example.deployment_config_manager.DTO.Microservice.UpdateMicroServiceRequest;
+import com.example.deployment_config_manager.DTO.Microservice.UpdateMicroserviceRequest;
 import com.example.deployment_config_manager.Service.Microservice.IMicroserviceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,27 +17,27 @@ public class MicroserviceController {
     private final IMicroserviceService microserviceService;
 
     @GetMapping()
-    public ResponseEntity<List<MicroserviceResponse>> getMicroservices(Long id) {
+    public ResponseEntity<List<MicroserviceResponse>> getMicroservices() {
         return ResponseEntity.ok(microserviceService.getAllMicroservices());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MicroserviceResponse> getMicroservice(Long id) {
+    public ResponseEntity<MicroserviceResponse> getMicroservice(@PathVariable("id") Long id) {
         return ResponseEntity.ok(microserviceService.getMicroservice(id));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<MicroserviceResponse> createMicroservice(CreateMicroserviceRequest createMicroserviceRequest) {
+    public ResponseEntity<MicroserviceResponse> createMicroservice(@RequestBody CreateMicroserviceRequest createMicroserviceRequest) {
         return ResponseEntity.ok(microserviceService.addMicroservice(createMicroserviceRequest));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MicroserviceResponse> updateMicroservice(Long id, UpdateMicroServiceRequest updateMicroServiceRequest) {
+    public ResponseEntity<MicroserviceResponse> updateMicroservice(@PathVariable("id") Long id, @RequestBody UpdateMicroserviceRequest updateMicroServiceRequest) {
         return ResponseEntity.ok(microserviceService.updateMicroservice(id, updateMicroServiceRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMicroService(Long id) {
+    public ResponseEntity<Void> deleteMicroService(@PathVariable("id") Long id) {
         microserviceService.deleteMicroservice(id);
         return ResponseEntity.noContent().build();
     }
