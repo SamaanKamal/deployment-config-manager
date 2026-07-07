@@ -2,8 +2,10 @@ package com.example.deployment_config_manager.Service.Microservice;
 
 import com.example.deployment_config_manager.DTO.Microservice.CreateMicroserviceRequest;
 import com.example.deployment_config_manager.DTO.Microservice.MicroserviceResponse;
-import com.example.deployment_config_manager.DTO.Microservice.UpdateMicroServiceRequest;
+import com.example.deployment_config_manager.DTO.Microservice.UpdateMicroserviceRequest;
+import com.example.deployment_config_manager.Entity.Environment;
 import com.example.deployment_config_manager.Entity.Microservice;
+import com.example.deployment_config_manager.Repository.EnvironmentRepository;
 import com.example.deployment_config_manager.Repository.MicroserviceRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.List;
 @Transactional
 public class MicroserviceService implements IMicroserviceService {
     private final MicroserviceRepository microserviceRepository;
+    private final EnvironmentRepository environmentRepository;
     @Override
     public List<MicroserviceResponse> getAllMicroservices() {
         List<Microservice> microservices = microserviceRepository.findAll();
@@ -31,19 +34,27 @@ public class MicroserviceService implements IMicroserviceService {
 
     @Override
     public MicroserviceResponse addMicroservice(CreateMicroserviceRequest createMicroserviceRequest) {
+        Environment environment = environmentRepository.findById(createMicroserviceRequest.getEnvironmentId())
+                .orElseThrow(() -> new RuntimeException("Environment not found with id: " + createMicroserviceRequest.getEnvironmentId()));
         Microservice microservice = new Microservice();
         microservice.setName(createMicroserviceRequest.getName());
         microservice.setImageName(createMicroserviceRequest.getImageName());
         microservice.setChartName(createMicroserviceRequest.getChartName());
         microservice.setNamespace(createMicroserviceRequest.getNamespace());
         microservice.setDescription(createMicroserviceRequest.getDescription());
+        microservice.setEnvironment(environment);
         return toResponse(microserviceRepository.save(microservice));
     }
 
     @Override
-    public MicroserviceResponse updateMicroservice(Long id, UpdateMicroServiceRequest updateMicroServiceRequest) {
+    public MicroserviceResponse updateMicroservice(Long id, UpdateMicroserviceRequest updateMicroServiceRequest) {
         return microserviceRepository.findById(id)
                 .map(microservice -> {
+                    if(updateMicroServiceRequest.getEnvironmentId() != null) {
+                        Environment environment = environmentRepository.findById(updateMicroServiceRequest.getEnvironmentId())
+                                .orElseThrow(() -> new RuntimeException("Environment not found with id: " + updateMicroServiceRequest.getEnvironmentId()));
+                        microservice.setEnvironment(environment);
+                    }
                     microservice.setName(updateMicroServiceRequest.getName());
                     microservice.setImageName(updateMicroServiceRequest.getImageName());
                     microservice.setChartName(updateMicroServiceRequest.getChartName());
