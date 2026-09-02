@@ -4,6 +4,7 @@ import com.example.deployment_config_manager.DTO.Project.CreateProjectRequest;
 import com.example.deployment_config_manager.DTO.Project.ProjectResponse;
 import com.example.deployment_config_manager.DTO.Project.UpdateProjectRequest;
 import com.example.deployment_config_manager.Service.Project.IProjectService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import java.util.List;
 public class ProjectController {
     private final IProjectService projectService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<ProjectResponse>> getProjects() {
         return ResponseEntity.ok(projectService.getAllProjects());
     }
@@ -26,8 +27,8 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.getProject(id));
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<ProjectResponse> createProject(@RequestBody CreateProjectRequest createProjectRequest) {
+    @PostMapping
+    public ResponseEntity<ProjectResponse> createProject(@Valid @RequestBody CreateProjectRequest createProjectRequest) {
         return ResponseEntity.ok(projectService.addProject(createProjectRequest));
     }
 

@@ -4,6 +4,7 @@ import com.example.deployment_config_manager.DTO.Environment.CreateEnvironmentRe
 import com.example.deployment_config_manager.DTO.Environment.EnvironmentResponse;
 import com.example.deployment_config_manager.DTO.Environment.UpdateEnvironmentRequest;
 import com.example.deployment_config_manager.Service.Environment.IEnvironmentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/environments")
+@RequestMapping("/api/projects/{projectId}/environments")
 @RequiredArgsConstructor
 public class EnvironmentController {
     private final IEnvironmentService environmentService;
@@ -24,8 +25,8 @@ public class EnvironmentController {
     public ResponseEntity<EnvironmentResponse> getEnvironment(@PathVariable("id") Long id) {
         return ResponseEntity.ok(environmentService.getEnvironment(id));
     }
-    @PostMapping("/create")
-    public ResponseEntity<EnvironmentResponse> createEnvironment(@RequestBody CreateEnvironmentRequest createEnvironmentRequest) {
+    @PostMapping()
+    public ResponseEntity<EnvironmentResponse> createEnvironment(@Valid @RequestBody CreateEnvironmentRequest createEnvironmentRequest) {
         return ResponseEntity.ok(environmentService.addEnvironment(createEnvironmentRequest));
     }
     @PutMapping("/{id}")

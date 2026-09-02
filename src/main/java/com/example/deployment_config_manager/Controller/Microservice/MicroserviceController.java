@@ -12,11 +12,11 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/microservices")
+@RequestMapping("/api/environments/{environmentId}/microservices")
 public class MicroserviceController {
     private final IMicroserviceService microserviceService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<MicroserviceResponse>> getMicroservices() {
         return ResponseEntity.ok(microserviceService.getAllMicroservices());
     }
@@ -26,7 +26,7 @@ public class MicroserviceController {
         return ResponseEntity.ok(microserviceService.getMicroservice(id));
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<MicroserviceResponse> createMicroservice(@RequestBody CreateMicroserviceRequest createMicroserviceRequest) {
         return ResponseEntity.ok(microserviceService.addMicroservice(createMicroserviceRequest));
     }
