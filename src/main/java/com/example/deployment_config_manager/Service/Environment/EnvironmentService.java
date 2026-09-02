@@ -5,6 +5,7 @@ import com.example.deployment_config_manager.DTO.Environment.EnvironmentResponse
 import com.example.deployment_config_manager.DTO.Environment.UpdateEnvironmentRequest;
 import com.example.deployment_config_manager.Entity.Environment;
 import com.example.deployment_config_manager.Entity.Project;
+import com.example.deployment_config_manager.Exception.ResourceNotFoundException;
 import com.example.deployment_config_manager.Repository.EnvironmentRepository;
 import com.example.deployment_config_manager.Repository.ProjectRepository;
 import jakarta.transaction.Transactional;
@@ -23,7 +24,7 @@ public class EnvironmentService implements IEnvironmentService {
     @Override
     public EnvironmentResponse getEnvironment(Long id){
         Environment environment = environmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Environment not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Environment not found with id: " + id));
         return toResponse(environment);
     }
     @Override
@@ -34,7 +35,7 @@ public class EnvironmentService implements IEnvironmentService {
     @Override
     public EnvironmentResponse addEnvironment(CreateEnvironmentRequest createEnvironmentRequest){
         Project project = projectRepository.findById(createEnvironmentRequest.getProjectId())
-                .orElseThrow(() -> new RuntimeException("Project not found with id: " + createEnvironmentRequest.getProjectId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id: " + createEnvironmentRequest.getProjectId()));
         Environment environment = new Environment();
         environment.setName(createEnvironmentRequest.getName());
         environment.setDescription(createEnvironmentRequest.getDescription());
@@ -48,13 +49,17 @@ public class EnvironmentService implements IEnvironmentService {
         return environmentRepository.findById(id).map(environment -> {
             if(updateEnvironmentRequest.getProjectId() != null){
                 Project project = projectRepository.findById(updateEnvironmentRequest.getProjectId())
-                        .orElseThrow(() -> new RuntimeException("Project not found with id: " + updateEnvironmentRequest.getProjectId()));
+                        .orElseThrow(() -> new ResourceNotFoundException("Project not found with id: " + updateEnvironmentRequest.getProjectId()));
                 environment.setProject(project);
             }
-            environment.setName(updateEnvironmentRequest.getName());
-            environment.setDescription(updateEnvironmentRequest.getDescription());
+            if(updateEnvironmentRequest.getName() != null){
+                environment.setName(updateEnvironmentRequest.getName());
+            }
+            if(updateEnvironmentRequest.getDescription() != null){
+                environment.setDescription(updateEnvironmentRequest.getDescription());
+            }
             return toResponse(environmentRepository.save(environment));
-        }).orElseThrow(() -> new RuntimeException("Environment not found with id: " + id));
+        }).orElseThrow(() -> new ResourceNotFoundException("Environment not found with id: " + id));
 
     }
 
